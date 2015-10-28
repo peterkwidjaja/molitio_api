@@ -2,8 +2,6 @@ require 'sinatra'
 require 'rubygems'
 require 'json'
 
-configure do
-
 
 get '/' do
   {
