@@ -5,17 +5,22 @@ require 'json'
 
 get '/' do
   {
-    'username'=> 'lol',
-    'password'=> 'test'
+    'username'=> 'test',
+    'password'=> 'pass1234'
   }.to_json
 end
 
 post '/auth' do
   username = params[:username]
   password = params[:password]
-  {
-    'secret_key'=>'1234512345'
-  }.to_json
+  if(username == "test" && password == "pass1234")
+    {'auth_token'=>'1234512345'}.to_json
+  else
+    status 401
+    {
+      'message'=>'Wrong username and password combination'
+    }.to_json
+  end
 end
 
 #REGISTER FROM MOBILE PHONE
