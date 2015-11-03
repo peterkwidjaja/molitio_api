@@ -55,7 +55,7 @@ post '/register' do
     token = SecureRandom.urlsafe_base64
     User.create(:username=>username, :password=>password, :auth_token=>token)
     {
-      'id' => User.first(:username=>username)
+      'id' => User.first(:username=>username),
       'token'  => token
     }.to_json
   else
