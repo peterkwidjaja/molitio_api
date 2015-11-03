@@ -14,7 +14,8 @@ end
 post '/auth' do
   username = params[:username]
   password = params[:password]
-  if(username == "test@mail.com" && password == "pass1234")
+  if(username.eql?"test@mail.com" && password.eql?"pass1234")
+    status 200
     {
       'id'=>1,
       'auth_token'=>'1234512345'
