@@ -12,9 +12,9 @@ end
 
 #LOGIN FROM MOBILE PHONE
 post '/auth' do
-  username = params[:username]
-  password = params[:password]
-  if(username.eql?"test@mail.com" && password.eql?"pass1234")
+  username = params[:username].to_s
+  password = params[:password].to_s
+  if username.eql?"test@mail.com" && password.eql?"pass1234"
     status 200
     {
       'id'=>1,
