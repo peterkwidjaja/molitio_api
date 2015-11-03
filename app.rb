@@ -62,7 +62,8 @@ end
 
 #GET AVAILABLE TASK
 get '/jobs' do
-  {[
+  content_type :json
+  [
     {
       'id'=> 1,
       'title'=>'Cleaning the toilet',
@@ -87,7 +88,7 @@ get '/jobs' do
       'creator_id'=>1,
       'creator_name'=> 'Bob'
     }
-  ]}.to_json
+  ].to_json
 end
 
 get '/:user/jobs' do
