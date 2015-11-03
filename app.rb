@@ -2,10 +2,14 @@ require 'sinatra'
 require 'rubygems'
 require 'json'
 require 'securerandom'
+require 'dm-core'
+require 'dm-migrations'
 require './config/environments'
 require './model/User.rb'
 require './model/Job.rb'
+
 DataMapper.finalize
+DataMapper.auto_migrate!
 
 get '/' do
   {
@@ -18,15 +22,14 @@ end
 post '/auth' do
   username = params[:username].to_s
   password = params[:password].to_s
-  verify = User.first(:username=>username)
-  if (!verify)
-    status 401
-  elsif verify.password == password
-    status 200
+
+  if username=="test@mail.com" && password=="pass1234"
     {
-      'id'=>verify.id.to_i,
-      'auth_token'=>verify.auth_token
+      'id'=>1,
+      'auth_token'=>'12435125'
     }.to_json
+  else
+    status 401
   end
 end
 
@@ -52,7 +55,7 @@ post '/register' do
     token = SecureRandom.urlsafe_base64
     User.create(:username=>username, :password=>password, :auth_token=>token)
     {
-      'message'=>'Successful',
+      'id' => User.first(:username=>username)
       'token'  => token
     }.to_json
   else

@@ -10,4 +10,3 @@ class User
   property :password, String, :required=>true
   property :auth_token, String
 end
-DataMapper.finalize
