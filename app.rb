@@ -8,8 +8,8 @@ require './config/environments'
 require './model/User.rb'
 require './model/Job.rb'
 
-#DataMapper.finalize
-#DataMapper.auto_migrate!
+DataMapper.finalize
+DataMapper.auto_migrate!
 
 get '/' do
   {

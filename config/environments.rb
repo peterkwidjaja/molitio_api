@@ -1,5 +1,4 @@
 require 'dm-core'
-require 'dm-migrations'
 require 'dm-aggregates'
 require 'sinatra'
 configure :development do
