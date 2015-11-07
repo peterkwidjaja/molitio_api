@@ -124,7 +124,7 @@ post '/accept/:jobid' do
     if job.applicant_id == -1
       job.update(:applicant_id=>userId)
       {
-        'message': "Successful"
+        'message'=>'Successful'
       }.to_json
     else
       status 401
