@@ -6,6 +6,7 @@ require 'dm-core'
 require 'dm-migrations'
 require './config/environments'
 require './model/User.rb'
+require './model/Archive.rb'
 require './model/Job.rb'
 
 DataMapper.finalize
