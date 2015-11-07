@@ -10,7 +10,6 @@ class Archive
 
   property :id,         Serial
   property :comment,    Text
-  property :blob,       Blob
   property :finish_date, String
   property :latitude,   Float
   property :longitude,  Float
