@@ -266,8 +266,7 @@ post '/finish/:jobid' do
     archive = Archive.create(
       :comment=>params[:comment],
       :finish_date=>params[:finish_date],
-      :latitude=>params[:latitude].to_f,
-      :longitude=>params[:longitude].to_f,
+      :address=>params[:address],
       :image=>params[:image],
       :job_id=>jobId
       )
