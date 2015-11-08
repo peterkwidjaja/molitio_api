@@ -88,8 +88,8 @@ end
 
 #GET task details of an id
 get '/jobs/:id' do
-  jobId = params['id']
-  result = Job.first(:id=>jobId)
+  jobId = params['id'].to_i
+  result = Job.get(jobId)
   if(result)
     {
       'id'=>result.id,
@@ -100,7 +100,8 @@ get '/jobs/:id' do
       'reward'=>result.reward,
       'contact'=>result.contact,
       'creator_id'=>result.creator_id,
-      'creator_name'=>result.creator_name
+      'creator_name'=>result.creator_name,
+      'applicant_id'=>result.applicant_id
     }.to_json
   else
     status 404
@@ -109,11 +110,9 @@ end
 
 post '/jobs' do
   id = params[:user_id].to_i
-  puts id
   auth_token = params[:auth_token]
-  puts auth_token
   count = User.count(:id=>id)
-  verify = User.first(:id=>id)
+  verify = User.get(id)
   if(count>0)
     job=Job.create(
       :title=>params[:title],
@@ -140,7 +139,7 @@ end
 post '/accept/:jobid' do
   jobId = params[:jobid].to_i
   userId = params[:user_id].to_i
-  job = Job.first(:id=>jobId)
+  job = Job.get(jobId)
   if(job)
     if job.applicant_id == -1
       job.update(:applicant_id=>userId)
@@ -159,10 +158,10 @@ end
 get '/:user/jobs' do
   userId = params['user'].to_i
   #auth = params['auth_token']
-  verify = User.first(:id=>userId)
+  verify = User.get(userId)
   if(verify)
     content_type :json
-    jobs = Job.all(:applicant_id=>userId)
+    jobs = Job.all(:applicant_id => userId)
     output = Array.new
     jobs.each do |job|
       obj = {
@@ -218,7 +217,7 @@ post '/finish/:jobid' do
     archive = Archive.create(:comment=>params[:comment], :finish_date=>params[:finish_date], :latitude=>params[:latitude], :longitude=>params[:longitude])
     content_type :json
     {
-    'message'=>'Successful'
+      'message'=>'Successful'
     }.to_json
   else
     status 401
