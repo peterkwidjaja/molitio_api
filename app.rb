@@ -145,7 +145,7 @@ post '/edit/:jobid' do
   counter = Job.count(:id=>jobId)
   if(counter==0)
     status 404
-  elsif job.creator_id == userid
+  elsif job.creator_id == userId
     job.update(
       :title=>params[:title],
       :description=>params[:description],
