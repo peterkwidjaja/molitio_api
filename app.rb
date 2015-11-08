@@ -243,7 +243,7 @@ post '/finish/:jobid' do
     AWS::S3::Base.establish_connection!(:access_key_id=>ENV['S3_KEY'], :secret_access_key=>ENV['S3_SECRET'])
     AWS::S3::S3Object.store(filename, open(file), "molitio", :access=>:public_read)
 
-    archive = Archive.create(:comment=>params[:comment], :finish_date=>params[:finish_date], :latitude=>params[:latitude], :longitude=>params[:longitude], :image=>filenam)e
+    archive = Archive.create(:comment=>params[:comment], :finish_date=>params[:finish_date], :latitude=>params[:latitude], :longitude=>params[:longitude], :image=>filename)
 
     content_type :json
     {
