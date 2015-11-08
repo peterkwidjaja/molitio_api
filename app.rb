@@ -178,6 +178,27 @@ get '/:user/jobs' do
   end
 end
 
+get '/:user/created' do
+  userId = params['user'].to_i
+  verify = User.get(userId)
+  if(verify)
+    jobs = Job.all(:creator_id=>userId)
+    output = Array.new
+    jobs.each do |job|
+      obj = {
+        'id'=>job.id,
+        'title'=>job.title.to_s,
+        'start_date'=>job.start_date.to_s,
+        'end_date'=>job.end_date.to_s
+      }
+      output.push(obj)
+    end
+    output.to_json
+  else
+    status 401
+  end
+end
+
 get '/:user/history' do
   userId = params['user'].to_i
   verify = User.first(:id=>userId)
