@@ -39,12 +39,13 @@ end
 post '/register' do
   username = params[:username]
   password = params[:password]
+  name = params[:name]
   verify = User.count(:username=>username)
   if verify==0
     token = SecureRandom.urlsafe_base64
-    User.create(:username=>username, :password=>password, :auth_token=>token)
+    User.create(:username=>username, :password=>password, :name=>name,:auth_token=>token)
     {
-      'id' => User.first(:username=>username),
+      'id' => User.first(:username=>username).id,
       'auth_token'  => token
     }.to_json
   else
@@ -103,7 +104,7 @@ post '/jobs' do
       :reward=>params[:reward],
       :contact=>params[:contact],
       :creator_id=>id,
-      :creator_name=>verify.username,
+      :creator_name=>verify.name,
       :applicant_Id=>-1)
     if job.saved?
       {
@@ -195,6 +196,8 @@ post '/finish/:jobid' do
   verify = User.first(:id=>userId)
   if(job && verify && job.applicant_id==userId && verify.auth_token==auth)
     job.update(:finished=>true)
+    archive = Archive.create(:comment=>params[:comment], :finish_date=>params[:finish_date], :latitude=>params[:latitude], :longitude=>params[:longitude])
+    content_type :json
     {
       'message'=>'Successful'
     }.to_json

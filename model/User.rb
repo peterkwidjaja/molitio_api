@@ -8,5 +8,6 @@ class User
   property :id, Serial
   property :username, String, :required=>true
   property :password, String, :required=>true
+  property :name, String
   property :auth_token, String
 end
