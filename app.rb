@@ -109,7 +109,9 @@ end
 
 post '/jobs' do
   id = params[:user_id].to_i
+  puts id
   auth_token = params[:auth_token]
+  puts auth_token
   count = User.count(:id=>id)
   verify = User.first(:id=>id)
   if(count>0 && verify.auth_token == auth_token)
