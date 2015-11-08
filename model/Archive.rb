@@ -13,5 +13,6 @@ class Archive
   property :finish_date, String
   property :latitude,   Float
   property :longitude,  Float
+  property :image, String
 
 end

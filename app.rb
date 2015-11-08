@@ -4,6 +4,7 @@ require 'json'
 require 'securerandom'
 require 'dm-core'
 require 'dm-migrations'
+require 'aws-s3'
 require './config/environments'
 require './model/User.rb'
 require './model/Archive.rb'
@@ -232,11 +233,18 @@ post '/finish/:jobid' do
   jobId = params['jobid'].to_i
   userId = params[:user_id].to_i
   auth = params[:auth_token]
-  job = Job.first(:id=>jobId)
-  verify = User.first(:id=>userId)
+  job = Job.get(jobId)
+  verify = User.get(userId)
   if(job && verify && job.applicant_id==userId && verify.auth_token==auth)
     job.update(:finished=>true)
-    archive = Archive.create(:comment=>params[:comment], :finish_date=>params[:finish_date], :latitude=>params[:latitude], :longitude=>params[:longitude])
+    file = params[:image]
+    filename = "job" + jobId +"user"+userId+verify.auth_token
+
+    AWS::S3::Base.establish_connection!(:access_key_id=>ENV['S3_KEY'], :secret_access_key=>ENV['S3_SECRET'])
+    AWS::S3::S3Object.store(filename, open(file), "molitio", :access=>:public_read)
+
+    archive = Archive.create(:comment=>params[:comment], :finish_date=>params[:finish_date], :latitude=>params[:latitude], :longitude=>params[:longitude], :image=>filenam)e
+
     content_type :json
     {
       'message'=>'Successful'
