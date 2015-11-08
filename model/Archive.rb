@@ -9,9 +9,8 @@ class Archive
   property :id,         Serial
   property :comment,    Text
   property :finish_date, String
-  property :latitude,   Decimal
-  property :longitude,  Decimal
-  property :image, String
+  property :address, String
+  property :image, Text
   property :job_id, Integer
 
 end
