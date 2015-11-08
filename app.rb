@@ -36,7 +36,18 @@ post '/auth' do
 end
 
 get '/users' do
-  users = User.all()
+  users = User.all
+  arr = Array.new
+  users.each do |user|
+    obj = {
+      'id'=>user.id,
+      'username'=>user.username,
+      'password'=>user.password,
+      'name'=>user.name,
+      'auth_token'=>user.auth_token
+    }
+    arr.push(obj)
+  end
   users.to_json
 end
 
@@ -97,7 +108,7 @@ get '/jobs/:id' do
 end
 
 post '/jobs' do
-  id = params[:user_id]
+  id = params[:user_id].to_i
   auth_token = params[:auth_token]
   verify = User.first(:id=>id)
   if(verify && verify.auth_token == auth_token)
@@ -124,8 +135,8 @@ post '/jobs' do
 end
 
 post '/accept/:jobid' do
-  jobId = params[:jobid]
-  userId = params[:user_id]
+  jobId = params[:jobid].to_i
+  userId = params[:user_id].to_i
   job = Job.first(:id=>jobId)
   if(job)
     if job.applicant_id == -1
