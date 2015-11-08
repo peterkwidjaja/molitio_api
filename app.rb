@@ -166,7 +166,8 @@ post '/accept/:jobid' do
   jobId = params[:jobid].to_i
   userId = params[:user_id].to_i
   job = Job.get(jobId)
-  if(job)
+  count = User.count(:id=>userId)
+  if(job && count>0)
     if job.applicant_id == -1
       job.update(:applicant_id=>userId)
       {
