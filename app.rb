@@ -30,7 +30,8 @@ post '/auth' do
     status 200
     {
       'id'=>verify.id.to_i,
-      'auth_token'=>verify.auth_token
+      'auth_token'=>verify.auth_token,
+      'creator_name'=>verify.name
     }.to_json
   end
 end
