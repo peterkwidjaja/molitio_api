@@ -261,14 +261,10 @@ post '/finish/:jobid' do
   verify = User.get(userId)
   if(job && verify && job.applicant_id==userId && verify.auth_token==auth)
     job.update(:finished=>true)
-    file = params[:image]
-    filename = "job" + jobId +"user"+userId+verify.auth_token
 
-    AWS::S3::Base.establish_connection!(:access_key_id=>ENV['S3_KEY'], :secret_access_key=>ENV['S3_SECRET'])
-    AWS::S3::S3Object.store(filename, open(file), "molitio", :access=>:public_read)
-
-    archive = Archive.create(:comment=>params[:comment], :finish_date=>params[:finish_date], :latitude=>params[:latitude], :longitude=>params[:longitude], :image=>filename)
-
+    archive = Archive.create(:comment=>params[:comment], :finish_date=>params[:finish_date], :latitude=>params[:latitude], :longitude=>params[:longitude], :image=>params[:image])
+    job.archive = archive
+    job.save
     content_type :json
     {
       'message'=>'Successful'
