@@ -262,7 +262,14 @@ post '/finish/:jobid' do
   if(job && verify && job.applicant_id==userId && verify.auth_token==auth)
     job.update(:finished=>true)
 
-    archive = Archive.create(:comment=>params[:comment], :finish_date=>params[:finish_date], :latitude=>params[:latitude], :longitude=>params[:longitude], :image=>params[:image], :job_id=>jobId)
+    archive = Archive.create(
+      :comment=>params[:comment],
+      :finish_date=>params[:finish_date],
+      :latitude=>params[:latitude].to_f,
+      :longitude=>params[:longitude].to_f,
+      :image=>params[:image],
+      :job_id=>jobId
+      )
 
     content_type :json
     {
