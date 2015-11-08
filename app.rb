@@ -105,7 +105,7 @@ post '/jobs' do
       :contact=>params[:contact],
       :creator_id=>id,
       :creator_name=>verify.name,
-      :applicant_Id=>-1)
+      :applicant_id=>-1)
     if job.saved?
       {
         'message'=>'Successful'
