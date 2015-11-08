@@ -260,7 +260,7 @@ post '/finish/:jobid' do
   auth = params[:auth_token]
   job = Job.get(jobId)
   verify = User.get(userId)
-  if(job && verify && job.applicant_id==userId && verify.auth_token==auth)
+  if(job.applicant_id==userId)
     job.update(:finished=>true)
 
     archive = Archive.create(
