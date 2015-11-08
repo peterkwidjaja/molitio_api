@@ -16,8 +16,8 @@ get '/' do
   {
     'username'=> 'test',
     'password'=> 'pass1234'
-  }.to_json
-end
+    }.to_json
+  end
 
 #LOGIN FROM MOBILE PHONE
 post '/auth' do
@@ -48,7 +48,7 @@ get '/users' do
     }
     arr.push(obj)
   end
-  users.to_json
+  arr.to_json
 end
 
 #REGISTER FROM MOBILE PHONE
@@ -215,7 +215,7 @@ post '/finish/:jobid' do
     archive = Archive.create(:comment=>params[:comment], :finish_date=>params[:finish_date], :latitude=>params[:latitude], :longitude=>params[:longitude])
     content_type :json
     {
-      'message'=>'Successful'
+    'message'=>'Successful'
     }.to_json
   else
     status 401
