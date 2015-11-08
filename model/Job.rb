@@ -17,5 +17,4 @@ class Job
   property :applicant_id, Integer, :default=>-1
   property :finished, Boolean, :default=>false
 
-  has 1, :archive
 end
