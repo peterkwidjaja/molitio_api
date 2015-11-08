@@ -35,6 +35,11 @@ post '/auth' do
   end
 end
 
+get '/users' do
+  users = User.all()
+  users.to_json
+end
+
 #REGISTER FROM MOBILE PHONE
 post '/register' do
   username = params[:username]
