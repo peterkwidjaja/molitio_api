@@ -138,6 +138,30 @@ post '/jobs' do
   end
 end
 
+post '/edit/:jobid' do
+  jobId = params['jobid'].to_i
+  userId = params[:user_id].to_i
+  job = Job.get(jobId)
+  counter = Job.count(:id=>jobId)
+  if(counter==0)
+    status 404
+  elsif job.creator_id == userid
+    job.update(
+      :title=>params[:title],
+      :description=>params[:description],
+      :start_date=>params[:start_date],
+      :end_date=>params[:end_date],
+      :reward=>params[:reward],
+      :contact=>params[:contact]
+      )
+    {
+      'message'=>'Successful'
+    }.to_json
+  else
+    status 401
+  end
+end
+
 post '/accept/:jobid' do
   jobId = params[:jobid].to_i
   userId = params[:user_id].to_i
