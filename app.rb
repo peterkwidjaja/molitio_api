@@ -55,7 +55,7 @@ end
 post '/register' do
   username = params[:username]
   password = params[:password]
-  name = params[:name]
+  name = params[:creator_name]
   verify = User.count(:username=>username)
   if verify==0
     token = SecureRandom.urlsafe_base64
@@ -114,7 +114,7 @@ post '/jobs' do
   puts auth_token
   count = User.count(:id=>id)
   verify = User.first(:id=>id)
-  if(count>0 && verify.auth_token == auth_token)
+  if(count>0)
     job=Job.create(
       :title=>params[:title],
       :description=>params[:description],
@@ -130,7 +130,7 @@ post '/jobs' do
         'message'=>'Successful'
       }.to_json
     else
-      status 401
+      status 404
     end
   else
     status 401
