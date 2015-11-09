@@ -188,7 +188,7 @@ get '/:user/jobs' do
   verify = User.get(userId)
   if(verify)
     content_type :json
-    jobs = Job.all(:applicant_id => userId)
+    jobs = Job.all(:applicant_id => userId, :finished=>false)
     output = Array.new
     jobs.each do |job|
       obj = {
@@ -277,5 +277,31 @@ post '/finish/:jobid' do
     }.to_json
   else
     status 401
+  end
+end
+
+get '/archive/:job_id' do
+  jobId = params['job_id'].to_i
+  job = Job.get(jobId)
+  archive = Archive.first(:job_id=>jobId)
+  if(job && archive)
+    {
+      'id'=>job.id,
+      'title'=>job.title,
+      'description'=>job.description,
+      'start_date'=>job.start_date,
+      'end_date'=>job.end_date,
+      'reward'=>job.reward,
+      'contact'=>job.contact,
+      'creator_id'=>job.creator_id,
+      'creator_name'=>job.creator_name,
+      'applicant_id'=>job.applicant_id,
+      'image'=>archive.image,
+      'address'=>archive.address,
+      'finish_date'=>archive.finish_date,
+      'comment'=>archive.comment
+    }.to_json
+  else
+    status 404
   end
 end
